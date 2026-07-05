@@ -1,0 +1,16 @@
+Product FAQ
+
+Q: What does InsightPilot do?
+A: InsightPilot turns internal notes, reports, and FAQs into searchable answers.
+
+Q: Who is it for?
+A: It is for analysts, operations teams, and founders who need quick answers from company documents.
+
+Q: Does it replace analysts?
+A: No. It helps analysts find relevant context faster and draft first-pass answers.
+
+Q: What is the biggest implementation risk?
+A: Poor document quality. If source documents are outdated, the system may produce weak answers.
+
+Q: What is a good first use case?
+A: A support knowledge base or internal operations manual is usually a good first use case.

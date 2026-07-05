@@ -1,0 +1,13 @@
+Acme Analytics is a fictional data consulting company.
+
+Its main services are dashboard development, data pipeline design, customer segmentation,
+sales forecasting, and AI-assisted reporting.
+
+The company prefers practical AI features that reduce repetitive analyst work.
+It avoids projects where the business problem is unclear or the data quality is unknown.
+
+Acme's ideal clients are small and mid-sized companies with existing data but limited
+internal data engineering capacity.
+
+Common project risks include vague stakeholder goals, missing source-system documentation,
+overly broad dashboard requests, and dashboards without adoption plans.
