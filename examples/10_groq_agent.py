@@ -1,5 +1,5 @@
-from langchain.agents import AgentExecutor, create_tool_calling_agent
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain.agents import create_agent
+from langchain_core.messages import HumanMessage
 from langchain_core.tools import tool
 
 from common import get_chat_model
@@ -29,38 +29,36 @@ def main() -> None:
     llm = get_chat_model()
     tools = [calculate_margin, recommend_dashboard]
 
-    prompt = ChatPromptTemplate.from_messages(
-        [
-            (
-                "system",
-                "You are a business analytics assistant. Use tools when calculations or lookups are needed.",
-            ),
-            ("human", "{input}"),
-            # The agent scratchpad stores intermediate tool calls and observations.
-            MessagesPlaceholder(variable_name="agent_scratchpad"),
-        ]
+    system_prompt = (
+        "You are a business analytics assistant. "
+        "Use tools when calculations or lookups are needed."
     )
 
-    # create_tool_calling_agent works with chat models that support tool calling.
-    # Groq-hosted Llama models support this style through LangChain's ChatGroq wrapper.
-    agent = create_tool_calling_agent(llm, tools, prompt)
-
-    executor = AgentExecutor(
-        agent=agent,
+    # create_agent builds the modern LangChain agent loop.
+    # The agent can read the user message, decide whether a tool is needed,
+    # call that tool, inspect the result, and then produce a final answer.
+    agent = create_agent(
+        model=llm,
         tools=tools,
-        verbose=True,
+        system_prompt=system_prompt,
     )
 
-    result = executor.invoke(
+    result = agent.invoke(
         {
-            "input": (
-                "Revenue is 50000 and cost is 31000. What is the margin, "
-                "and what dashboard should we use for revenue?"
-            )
+            "messages": [
+                HumanMessage(
+                    content=(
+                        "Revenue is 50000 and cost is 31000. What is the margin, "
+                        "and what dashboard should we use for revenue?"
+                    )
+                )
+            ]
         }
     )
 
-    print(result["output"])
+    # The agent returns the full message history.
+    # The final assistant response is the last message in that history.
+    print(result["messages"][-1].content)
 
 
 if __name__ == "__main__":
